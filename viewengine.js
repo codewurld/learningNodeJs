@@ -27,7 +27,7 @@ app.get('/about', (req, res) => {
 });
 
 //redirects
-app.get('/blogs-create', (req, res) => {
+app.get('/blogs/create', (req, res) => {
     res.render('create', { title: "Create Blog" });
 });
 
