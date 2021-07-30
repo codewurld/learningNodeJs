@@ -9,22 +9,29 @@ app.set('view engine', 'ejs');
 // listen for requests
 app.listen(3000);
 
-
+// title object works like prop that can be passed dynamically into ejs file
 app.get('/', (req, res) => {
-    res.render('index');
+
+    const blogs = [
+        { title: "26 Days of Code", snippet: "Lorem ipsum dolor sit met consecteutur" },
+        { title: "27 Days of Code", snippet: "Lorem ipsum dolor sit met consecteutur" },
+        { title: "28 Days of Code", snippet: "Lorem ipsum dolor sit met consecteutur" }
+    ]
+
+    res.render('index', { title: "Blogzone", blogs });
 });
 
 
 app.get('/about', (req, res) => {
-    res.render('about');
+    res.render('about', { title: "About Me" });
 });
 
 //redirects
 app.get('/blogs-create', (req, res) => {
-    res.render('create');
+    res.render('create', { title: "Create Blog" });
 });
 
 //404 pge
 app.use((req, res) => {
-    res.status(404).render('404');
+    res.status(404).render('404', { title: "Error Page" });
 });
