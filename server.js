@@ -7,6 +7,19 @@ const server = http.createServer((req, res) => {
     // set header content type
     res.setHeader("Content-Type", "text/html")
 
+    //switch statement used to route pages depending on user's page search
+    let path = "./views/";
+    switch (req.url) {
+        case "/":
+            path += "index.html";
+            break;
+        case "/about":
+            path += "about.html";
+            break;
+        default:
+            path += "404.html";
+    }
+
     //write content -- but better way is to use fs.readFile from dedicated HTML
 
     // res.write('<img src="https://images.unsplash.com/photo-1627521947524-f4d79a11437f?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1296&q=60">');
@@ -15,7 +28,7 @@ const server = http.createServer((req, res) => {
 
 
     // send an html file 
-    fs.readFile('./views/index.html', (err, data) => {
+    fs.readFile(path, (err, data) => {
         if (err) {
             console.log(err);
             res.end();
@@ -23,6 +36,10 @@ const server = http.createServer((req, res) => {
         } else {
             res.write(data);
             res.end();
+
+            // if we are only fetching one data, we can simply use:
+
+            // res.end(data);
         }
     })
 
