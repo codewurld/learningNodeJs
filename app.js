@@ -28,3 +28,14 @@ app.get('/about', (req, res) => {
     //avoiding hardcode and fetching data from html and root folder - same as above
     res.sendFile('./views/about.html', { root: __dirname });
 });
+
+
+//redirects
+app.get('/about-us', (req, res) => {
+    res.redirect('/about');
+});
+
+//404 pge
+app.use((req, res) => {
+    res.status(404).sendFile('./views/404.html', { root: __dirname });
+});
