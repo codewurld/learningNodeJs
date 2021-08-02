@@ -45,6 +45,31 @@ app.get("/add-blog", (req, res) => {
         })
 })
 
+// retrieving database
+
+app.get("/all-blogs", (req, res) => {
+    Blog.find()
+        .then((result) => {
+            res.send(result);
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+})
+
+// retrieving a single blog
+
+app.get('/single-blog', (req, res) => {
+    Blog.findById('6107ef2f06c28b1d5498bb29')
+        .then((result) => {
+            res.send(result);
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+})
+
+
 // working with middleware, must specify next() otherwise the browser hangs
 
 // app.use((req, res, next) => {
