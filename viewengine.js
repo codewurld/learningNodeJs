@@ -105,14 +105,12 @@ app.get('/', (req, res) => {
 });
 
 
-
-
 app.get('/about', (req, res) => {
     res.render('about', { title: "About Me" });
 });
 
 //BLOG ROUTES
-app.use(blogRoutes);
+app.use('/blogs', blogRoutes);
 
 //404 pge -- also a middleware
 app.use((req, res) => {

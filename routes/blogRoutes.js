@@ -1,62 +1,25 @@
 const express = require('express')
-const Blog = require('../models/blog');
+const blogControllers = require('../controllers/blogControllers');
 const router = express.Router();
 
 
-//blog routes - used with mongodb - so when /blogs is searched for in the url, it redirects to the home page
-router.get('/blogs', (req, res) => {
-    Blog.find().sort({ createdAt: -1 })
-        .then((result) => {
-            res.render('index', { title: 'All Blogs', blogs: result })
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-})
+//blog routes - used with mongodb - so when /blogs is searched for in the url, it redirects to the home page - using controllers to separate our router logic and keep router neat
+
+router.get('/', blogControllers.blog_index);
 
 // POST requests
-router.post('/blogs', (req, res) => {
-    //use middleware to get access
-    const blog = new Blog(req.body);
+router.post('/', blogControllers.blog_create_post);
 
-    blog.save()
-        .then((result) => {
-            res.redirect('/blogs')
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-})
 
 //redirects - w/o mongo
-router.get('/blogs/create', (req, res) => {
-    res.render('create', { title: "Create Blog" });
-});
+router.get('/create', blogControllers.blog_create_get)
 
-// GET single requests using route parameters
+// GET single requests using route parameters - also using controller from blogControllers
 
-router.get('/blogs/:id', (req, res) => {
-    const id = req.params.id;
-    Blog.findById(id)
-        .then(result => {
-            res.render('details', { blog: result, title: 'Blog Details' })
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-})
+router.get('/:id', blogControllers.blog_details)
 
 // DELETE single requests using route parameters
-router.delete('/blogs/:id', (req, res) => {
-    const id = req.params.id;
-    Blog.findByIdAndDelete(id)
-        .then(result => {
-            res.json({ redirect: '/blogs' })
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-})
+router.delete('/:id', blogControllers.blog_delete)
 
 
 module.exports = router;
